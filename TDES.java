@@ -3,8 +3,6 @@ package ciphers;
 import java.util.List;
 
 import static ciphers.DES.*;
-import static ciphers.DES.doRevLastPerm;
-
 /**
  * Created by roman on 12.2.17.
  */
