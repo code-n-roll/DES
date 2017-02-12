@@ -8,7 +8,7 @@ import static ciphers.DES.*;
 /**
  * Created by roman on 11.2.17.
  */
-public class Main {
+public class MainDES {
     public static void main(String[] args){
         List<List<Integer>> k = new ArrayList<>(),
                 blocks = new ArrayList<>();
