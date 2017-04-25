@@ -1,4 +1,4 @@
-package ciphers;
+package ciphers.des_3des;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,6 +10,10 @@ import java.util.List;
 
 /**
  * Created by roman on 7.2.17.
+ * DES - Data Encryption Standard
+ *
+ * result of encryption DES: packageName/encryptFileName or packageName/encryptBinFileName.txt
+ * result of decryption DES: packageName/decryptFileName or packageName/decryptBinFileName.txt
  */
 public class DES {
 
@@ -355,5 +359,75 @@ public class DES {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * start encryption DES
+     */
+    public static void encrypt(String packageName,
+                               String inputDataFileName,
+                               String inputKeyFileName,
+                               String encryptFileName,
+                               String encryptBinFileName
+    ){
+        List<List<Integer>> k = new ArrayList<>(),
+                            blocks = new ArrayList<>();
+        List<Integer> left = new ArrayList<>(),
+                      right = new ArrayList<>(),
+                      temp = new ArrayList<>();
+
+
+        keyFromFile(k, packageName.concat(inputKeyFileName));
+        binaryFromFile(blocks,packageName.concat(inputDataFileName));
+        binaryToTerminal(blocks, "Plain text:");
+
+
+        getKey0(k);
+        for (int j = 1; j <= 16; j++) {
+            getKeyi(k, j);
+        }
+        for (int i = 0; i < blocks.size(); i++){
+            doFirstPerm(blocks, i);
+            doCycle16(blocks,k,left,right,temp,i, true);
+            doRevLastPerm(blocks, i);
+        }
+
+        binaryToTextTofile(blocks,packageName.concat(encryptFileName));
+        binaryToFile(blocks, packageName.concat(encryptBinFileName));
+        binaryToTerminal(blocks, "Encrypted:");
+
+    }
+
+    /**
+     * start decryption DES
+     */
+    public static void decrypt(String packageName,
+                               String inputKeyFileName,
+                               String encryptFileName,
+                               String decryptFileName,
+                               String decryptBinFileName){
+        List<List<Integer>> k = new ArrayList<>(),
+                            blocks = new ArrayList<>();
+        List<Integer> left = new ArrayList<>(),
+                      right = new ArrayList<>(),
+                      temp = new ArrayList<>();
+
+        keyFromFile(k, packageName.concat(inputKeyFileName));
+        binaryFromFile(blocks,packageName.concat(encryptFileName));
+        binaryToTerminal(blocks, "Plain text:");
+
+        getKey0(k);
+        for (int j = 1; j <= 16; j++) {
+            getKeyi(k, j);
+        }
+        for (int i=0; i< blocks.size(); i++){
+            doFirstPerm(blocks,i);
+            doCycle16(blocks,k,left,right,temp,i,false);
+            doRevLastPerm(blocks, i);
+        }
+
+        binaryToTerminal(blocks,"Decrypted:");
+        binaryToTextTofile(blocks, packageName.concat(decryptFileName));
+        binaryToFile(blocks, packageName.concat(decryptBinFileName));
     }
 }
