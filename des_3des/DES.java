@@ -315,7 +315,7 @@ public class DES {
                     List<Integer> octet = blocks.get(i).subList(j * 8, j * 8 + 8);
                     String bitSet = "";
                     for (int bit : octet) {
-                        bitSet += String.valueOf(bit);
+                        bitSet = bitSet.concat(String.valueOf(bit));
                     }
                     ch = (char) Integer.parseInt(bitSet, 2);
                     f.write(ch);
