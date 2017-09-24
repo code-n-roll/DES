@@ -3,6 +3,8 @@ package ciphers.des_3des;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ciphers.des_3des.IOUtil.*;
+
 /**
  * Created by roman on 12.2.17.
  * TDES is 3DES is TripleDES
@@ -17,8 +19,8 @@ public class TDES {
                                        String outputFilename,
                                        String outputBinFilename){
         blocks.clear();
-        DES.binaryFromFile(blocks,inputFilename);
-        DES.binaryToTerminal(blocks, "Plain text:");
+        binaryFromFile(blocks,inputFilename);
+        binaryToTerminal(blocks, "Plain text:");
 
         for (int i = 0; i < blocks.size(); i++){
             DES.doFirstPerm(blocks, i);
@@ -26,9 +28,9 @@ public class TDES {
             DES.doRevLastPerm(blocks, i);
         }
 
-        DES.binaryToTextTofile(blocks,outputFilename);
-        DES.binaryToFile(blocks, outputBinFilename);
-        DES.binaryToTerminal(blocks, "Encrypted:");
+        binaryToTextTofile(blocks,outputFilename);
+        binaryToFile(blocks, outputBinFilename);
+        binaryToTerminal(blocks, "Encrypted:");
     }
 
     private static void decryptDESkeyi(List<List<Integer>> blocks,
@@ -41,15 +43,15 @@ public class TDES {
             DES.doRevLastPerm(blocks, i);
         }
 
-        DES.binaryToTerminal(blocks,"Decrypted:");
-        DES.binaryToTextTofile(blocks, outputFilename);
-        DES.binaryToFile(blocks, outputBinFilename);
+        binaryToTerminal(blocks,"Decrypted:");
+        binaryToTextTofile(blocks, outputFilename);
+        binaryToFile(blocks, outputBinFilename);
 
     }
 
     private static void getAllkeyiFromFile(List<List<Integer>> k, String inputFilename){
         k.clear();
-        DES.keyFromFile(k, inputFilename);
+        keyFromFile(k, inputFilename);
         DES.getKey0(k);
         for (int j = 1; j <= 16; j++) {
             DES.getKeyi(k, j);

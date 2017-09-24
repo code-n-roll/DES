@@ -19,5 +19,6 @@ public class MainDES {
                 "encrypt.txt",
                 "decrypt.txt",
                 "decryptBin.txt");
+
     }
 }

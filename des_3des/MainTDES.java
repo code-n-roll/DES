@@ -12,7 +12,7 @@ import java.util.List;
 public class MainTDES {
     public static void main(String[] args){
         List<List<Integer>> blocks;
-        blocks = TDES.encrypt("/media/roman/Data/Java/tasks/src/ciphers/des_3des/files/",
+        blocks = TDES.encrypt("/mnt/Data/Java/tasks/src/ciphers/des_3des/files/",
                 "input.txt",
                 "key1TDES.txt",
                 "key2TDES.txt",
@@ -24,7 +24,7 @@ public class MainTDES {
                 "encrypt2.txt",
                 "encryptBin2.txt");
 
-        TDES.decrypt(blocks,"/media/roman/Data/Java/tasks/src/ciphers/des_3des/files/",
+        TDES.decrypt(blocks,"/mnt/Data/Java/tasks/src/ciphers/des_3des/files/",
                 "key1TDES.txt",
                 "key2TDES.txt",
                 "key3TDES.txt",
