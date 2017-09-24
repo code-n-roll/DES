@@ -9,12 +9,12 @@ package ciphers.des_3des;
  */
 public class MainDES {
     public static void main(String[] args){
-        DES.encrypt("/media/roman/Data/Java/tasks/src/ciphers/des_3des/files/",
+        DES.encrypt("/mnt/Data/Java/tasks/src/ciphers/des_3des/files/",
                 "input.txt",
                 "key56bits.txt",
                 "encrypt.txt",
                 "encryptBin.txt");
-        DES.decrypt("/media/roman/Data/Java/tasks/src/ciphers/des_3des/files/",
+        DES.decrypt("/mnt/Data/Java/tasks/src/ciphers/des_3des/files/",
                 "key56bits.txt",
                 "encrypt.txt",
                 "decrypt.txt",

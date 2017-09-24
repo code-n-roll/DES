@@ -11,17 +11,18 @@ import java.util.List;
  * result of decryption TDES: packageName/resDecrypt3FileName or packageName/resDecryptBin3FileName
  */
 public class TDES {
-    private static void encryptDESkeyi(List<List<Integer>> blocks, List<List<Integer>> k,
-                      List<Integer> left, List<Integer> right,
-                      List<Integer> temp, String inputFilename,
-                               String outputFilename, String outputBinFilename){
+    private static void encryptDESkeyi(List<List<Integer>> blocks,
+                                       List<List<Integer>> k,
+                                       String inputFilename,
+                                       String outputFilename,
+                                       String outputBinFilename){
         blocks.clear();
         DES.binaryFromFile(blocks,inputFilename);
         DES.binaryToTerminal(blocks, "Plain text:");
 
         for (int i = 0; i < blocks.size(); i++){
             DES.doFirstPerm(blocks, i);
-            DES.doCycle16(blocks,k,left,right,temp,i, true);
+            DES.doCycle16(blocks, k, i, true);
             DES.doRevLastPerm(blocks, i);
         }
 
@@ -30,13 +31,13 @@ public class TDES {
         DES.binaryToTerminal(blocks, "Encrypted:");
     }
 
-    private static void decryptDESkeyi(List<List<Integer>> blocks, List<List<Integer>> k,
-                        List<Integer> left, List<Integer> right,
-                        List<Integer> temp, String outputFilename,
-                               String outputBinFilename){
+    private static void decryptDESkeyi(List<List<Integer>> blocks,
+                                       List<List<Integer>> k,
+                                       String outputFilename,
+                                       String outputBinFilename){
         for (int i=0; i< blocks.size(); i++){
             DES.doFirstPerm(blocks,i);
-            DES.doCycle16(blocks,k,left,right,temp,i,false);
+            DES.doCycle16(blocks, k, i,false);
             DES.doRevLastPerm(blocks, i);
         }
 
@@ -71,25 +72,19 @@ public class TDES {
                                String resEncryptBin2FileName){
         List<List<Integer>> k = new ArrayList<>(),
                             blocks = new ArrayList<>();
-        List<Integer> left = new ArrayList<>(),
-                      right = new ArrayList<>(),
-                      temp = new ArrayList<>();
 
         getAllkeyiFromFile(k,packageName.concat(inputKey1FileName));
-        encryptDESkeyi(blocks,k,left,right,temp,
-                packageName.concat(inputData),
+        encryptDESkeyi(blocks, k, packageName.concat(inputData),
                 packageName.concat(resEncrypt1FileName),
                 packageName.concat(resEncryptBin1FileName)
         );
 
         getAllkeyiFromFile(k,packageName.concat(inputKey2FileName));
-        decryptDESkeyi(blocks,k,left,right,temp,
-                packageName.concat(resDecrypt1FileName),
+        decryptDESkeyi(blocks, k, packageName.concat(resDecrypt1FileName),
                 packageName.concat(resDecryptBin1FileName));
 
         getAllkeyiFromFile(k,packageName.concat(inputKey3FileName));
-        encryptDESkeyi(blocks,k,left,right,temp,
-                packageName.concat(resDecrypt1FileName),
+        encryptDESkeyi(blocks, k, packageName.concat(resDecrypt1FileName),
                 packageName.concat(resEncrypt2FileName),
                 packageName.concat(resEncryptBin2FileName)
         );
@@ -112,26 +107,20 @@ public class TDES {
                                String resDecrypt3FileName,
                                String resDecryptBin3FileName){
         List<List<Integer>> k = new ArrayList<>();
-        List<Integer> left = new ArrayList<>(),
-                      right = new ArrayList<>(),
-                      temp = new ArrayList<>();
 
         getAllkeyiFromFile(k,packageName.concat(inputKey3FileName));
-        decryptDESkeyi(blocks,k,left,right,temp,
-                packageName.concat(resDecrypt2FileName),
+        decryptDESkeyi(blocks, k, packageName.concat(resDecrypt2FileName),
                 packageName.concat(resDecryptBin2FileName)
         );
 
         getAllkeyiFromFile(k,packageName.concat(inputKey2FileName));
-        encryptDESkeyi(blocks,k,left,right,temp,
-                packageName.concat(resDecrypt2FileName),
+        encryptDESkeyi(blocks, k, packageName.concat(resDecrypt2FileName),
                 packageName.concat(resEncrypt3FileName),
                 packageName.concat(resEncryptBin3FileName)
         );
 
         getAllkeyiFromFile(k,packageName.concat(inputKey1FileName));
-        decryptDESkeyi(blocks,k,left,right,temp,
-                packageName.concat(resDecrypt3FileName),
+        decryptDESkeyi(blocks, k, packageName.concat(resDecrypt3FileName),
                 packageName.concat(resDecryptBin3FileName)
         );
     }

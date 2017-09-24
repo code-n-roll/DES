@@ -221,22 +221,22 @@ public class DES {
 
     static void doRevLastPerm(List<List<Integer>> blocks, int i) {
         List<Integer> iTempBlock = new ArrayList<>(blocks.get(i));
-        for (int j=0; j < BITS64; j++){
+        for (int j = 0; j < BITS64; j++){
             blocks.get(i).set(j, iTempBlock.get(revLastPerm[j]-1));
         }
     }
 
     static void doFirstPerm(List<List<Integer>> blocks, int i){
         List<Integer> iTempBlock = new ArrayList<>(blocks.get(i));
-        for (int j=0; j < blocks.get(i).size(); j++){
+        for (int j = 0; j < blocks.get(i).size(); j++){
             blocks.get(i).set(j, iTempBlock.get(firstPermutation[j]-1));
         }
     }
 
-    static void doCycle16(List<List<Integer>> blocks, List<List<Integer>> k, List<Integer> left,
-                          List<Integer> right, List<Integer> temp, int i, boolean encr){
-        left = blocks.get(i).subList(0,BITS32);
-        right = blocks.get(i).subList(BITS32,BITS64);
+    static void doCycle16(List<List<Integer>> blocks, List<List<Integer>> k, int i, boolean encr){
+        List<Integer> left = blocks.get(i).subList(0,BITS32);
+        List<Integer> right = blocks.get(i).subList(BITS32, BITS64);
+        List<Integer> temp;
 
         if (encr) {
             for (int j = 1; j <= 16; j++) {
@@ -259,24 +259,27 @@ public class DES {
     static void binaryFromFile(List<List<Integer>> blocks, String filename){
         try {
             List<Integer> buf = new ArrayList<>();
-            FileInputStream f = new FileInputStream(filename);
+            FileInputStream file = new FileInputStream(filename);
             String bits64 = "";
-            int size = f.available(), sym;
+            int size = file.available(), symbol;
             char[] dst = new char[BITS64];
 
             System.out.println("File description"+
                     "\n\tpath: "+filename+
                     "\n\tsize: "+size+" bytes");
 
-            for (int i = 0; i < size; i++) {
-                if ((i % 8 == 0 || i == size - 1) && i != 0) {
+            for (int i = 1; i <= size; i++) {
+                String bits8 = String.format("%08d", Integer.parseInt(Integer.toBinaryString(file.read())));
+                bits64 = bits64.concat(bits8);
+
+                if ((i % 8 == 0 || i == size) && i != 0) {
                     bits64.getChars(0, bits64.length(), dst, 0);
                     for (char c : dst) {
                         if (c == Character.MIN_VALUE){
                             buf.add(0);
                         } else {
-                            sym = Integer.parseInt(String.valueOf(c));
-                            buf.add(sym);
+                            symbol = Integer.parseInt(String.valueOf(c));
+                            buf.add(symbol);
                         }
                     }
                     blocks.add(new ArrayList<>(buf));
@@ -285,8 +288,6 @@ public class DES {
                     bits64 = "";
                     Arrays.fill(dst, Character.MIN_VALUE);
                 }
-                String bits8 = String.format("%08d", Integer.parseInt(Integer.toBinaryString(f.read())));
-                bits64 = bits64.concat(bits8);
             }
         }catch (IOException e){
             e.printStackTrace();
@@ -368,13 +369,9 @@ public class DES {
                                String inputDataFileName,
                                String inputKeyFileName,
                                String encryptFileName,
-                               String encryptBinFileName
-    ){
+                               String encryptBinFileName){
         List<List<Integer>> k = new ArrayList<>(),
                             blocks = new ArrayList<>();
-        List<Integer> left = new ArrayList<>(),
-                      right = new ArrayList<>(),
-                      temp = new ArrayList<>();
 
 
         keyFromFile(k, packageName.concat(inputKeyFileName));
@@ -388,7 +385,7 @@ public class DES {
         }
         for (int i = 0; i < blocks.size(); i++){
             doFirstPerm(blocks, i);
-            doCycle16(blocks,k,left,right,temp,i, true);
+            doCycle16(blocks, k, i, true);
             doRevLastPerm(blocks, i);
         }
 
@@ -408,9 +405,6 @@ public class DES {
                                String decryptBinFileName){
         List<List<Integer>> k = new ArrayList<>(),
                             blocks = new ArrayList<>();
-        List<Integer> left = new ArrayList<>(),
-                      right = new ArrayList<>(),
-                      temp = new ArrayList<>();
 
         keyFromFile(k, packageName.concat(inputKeyFileName));
         binaryFromFile(blocks,packageName.concat(encryptFileName));
@@ -420,9 +414,9 @@ public class DES {
         for (int j = 1; j <= 16; j++) {
             getKeyi(k, j);
         }
-        for (int i=0; i< blocks.size(); i++){
+        for (int i = 0; i < blocks.size(); i++){
             doFirstPerm(blocks,i);
-            doCycle16(blocks,k,left,right,temp,i,false);
+            doCycle16(blocks, k, i,false);
             doRevLastPerm(blocks, i);
         }
 
