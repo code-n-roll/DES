@@ -9,15 +9,15 @@ import static ciphers.des_3des.IOUtil.*;
 
 /**
  * Created by roman on 7.2.17.
- * DES - Data Encryption Standard
+ * Des - Data Encryption Standard
  *
- * result of encryption DES: packageName/encryptFileName or
+ * result of encryption Des: packageName/encryptFileName or
  * packageName/encryptBinFileName.txt
  *
- * result of decryption DES: packageName/decryptFileName or
+ * result of decryption Des: packageName/decryptFileName or
  * packageName/decryptBinFileName.txt
  */
-public class DES {
+public class Des {
     private final static int BITS64 = 64;
     private final static int BITS28 = 28;
     private final static int BITS56 = 56;
@@ -173,15 +173,14 @@ public class DES {
     }
 
     /**
-     * start encryption DES
+     * start encryption Des
      */
     public static void encrypt(final String packageName,
-                               final String inputDataFileName,
-                               final String inputKeyFileName,
-                               final String encryptFileName,
-                               final String encryptBinFileName){
-        keyFromFile(k, packageName.concat(inputKeyFileName));
-        binaryFromFile(blocks,packageName.concat(inputDataFileName));
+                               final String inputFileName,
+                               final String keyFileName,
+                               final String resultFileName){
+        keyFromFile(k, packageName.concat(keyFileName));
+        binaryFromFile(blocks,packageName.concat(inputFileName));
         binaryToTerminal(blocks, "Plain text:");
 
         getKey0(k);
@@ -194,24 +193,24 @@ public class DES {
             doRevLastPerm(blocks, i);
         }
 
-        binaryToTextTofile(blocks,packageName.concat(encryptFileName));
-        binaryToFile(blocks, packageName.concat(encryptBinFileName));
+        binaryToTextTofile(blocks,packageName.concat(resultFileName));
+        binaryToFile(blocks, packageName.concat(resultFileName
+                .replace(".", BIN_SUFFIX + ".")));
         binaryToTerminal(blocks, "Encrypted:");
     }
 
     /**
-     * start decryption DES
+     * start decryption Des
      */
     public static void decrypt(final String packageName,
-                               final String inputKeyFileName,
-                               final String encryptFileName,
-                               final String decryptFileName,
-                               final String decryptBinFileName){
+                               final String keyFileName,
+                               final String inputFileName,
+                               final String resultFileName){
         k.clear();
         blocks.clear();
 
-        keyFromFile(k, packageName.concat(inputKeyFileName));
-        binaryFromFile(blocks,packageName.concat(encryptFileName));
+        keyFromFile(k, packageName.concat(keyFileName));
+        binaryFromFile(blocks,packageName.concat(inputFileName));
         binaryToTerminal(blocks, "Plain text:");
 
         getKey0(k);
@@ -225,7 +224,8 @@ public class DES {
         }
 
         binaryToTerminal(blocks,"Decrypted:");
-        binaryToTextTofile(blocks, packageName.concat(decryptFileName));
-        binaryToFile(blocks, packageName.concat(decryptBinFileName));
+        binaryToTextTofile(blocks, packageName.concat(resultFileName));
+        binaryToFile(blocks, packageName.concat(resultFileName
+                .replace(".", BIN_SUFFIX + ".")));
     }
 }

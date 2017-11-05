@@ -2,6 +2,18 @@ package ciphers.des_3des;
 
 public class Constants {
 
+    final static String ENCRYPT1_FILENAME = "encrypt1";
+    final static String ENCRYPT2_FILENAME = "encrypt2";
+    final static String ENCRYPT3_FILENAME = "encrypt3";
+
+    final static String DECRYPT1_FILENAME = "decrypt1";
+    final static String DECRYPT2_FILENAME = "decrypt2";
+    final static String DECRYPT3_FILENAME = "decrypt3";
+
+    final static String FILE_FORMATE = ".txt";
+    final static String BIN_SUFFIX = "Bin";
+
+
     final static int[] firstPermutation = {
         58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44, 36, 28, 20, 12, 4,
         62, 54, 46, 38, 30, 22, 14, 6, 64, 56, 48, 40, 32, 24, 16, 8,
