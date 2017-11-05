@@ -1,4 +1,6 @@
-package ciphers.des_3des;
+package ciphers.des_3des.main;
+
+import ciphers.des_3des.TDes;
 
 import java.util.List;
 

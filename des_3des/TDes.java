@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ciphers.des_3des.IOUtil.*;
+import static ciphers.des_3des.util.IOUtil.*;
 import static ciphers.des_3des.Constants.*;
 
 /**

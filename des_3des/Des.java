@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static ciphers.des_3des.Constants.*;
-import static ciphers.des_3des.IOUtil.*;
+import static ciphers.des_3des.util.IOUtil.*;
 
 /**
  * Created by roman on 7.2.17.

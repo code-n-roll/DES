@@ -1,4 +1,4 @@
-package ciphers.des_3des;
+package ciphers.des_3des.util;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,7 +10,7 @@ import java.util.List;
 public class IOUtil {
     private static int BITS64 = 64;
 
-    static void binaryFromFile(List<List<Integer>> blocks,
+    public static void binaryFromFile(List<List<Integer>> blocks,
                                final String filename){
         try {
             List<Integer> buf = new ArrayList<>();
@@ -50,7 +50,7 @@ public class IOUtil {
         }
     }
 
-    static void binaryToTerminal(final List<List<Integer>> blocks,
+    public static void binaryToTerminal(final List<List<Integer>> blocks,
                                  final String descr){
         System.out.println("\n"+descr);
         for (int i = 0; i< blocks.size(); i++){
@@ -64,7 +64,7 @@ public class IOUtil {
         }
     }
 
-    static void binaryToTextTofile(final List<List<Integer>> blocks,
+    public static void binaryToTextTofile(final List<List<Integer>> blocks,
                                    final String filename){
         try {
             FileOutputStream f = new FileOutputStream(filename);
@@ -86,7 +86,7 @@ public class IOUtil {
         }
     }
 
-    static void binaryToFile(final List<List<Integer>> blocks,
+    public static void binaryToFile(final List<List<Integer>> blocks,
                              final String filename){
         try {
             FileOutputStream f = new FileOutputStream(filename);
@@ -104,7 +104,7 @@ public class IOUtil {
         }
     }
 
-    static void keyFromFile(List<List<Integer>> k,
+    public static void keyFromFile(List<List<Integer>> k,
                             final String filename){
         try {
             FileInputStream f = new FileInputStream(filename);

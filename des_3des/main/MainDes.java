@@ -1,4 +1,6 @@
-package ciphers.des_3des;
+package ciphers.des_3des.main;
+
+import ciphers.des_3des.Des;
 
 /**
  * Created by roman on 11.2.17.
